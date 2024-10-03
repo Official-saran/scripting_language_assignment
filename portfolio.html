@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Portfolio Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .gallery {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .gallery img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      opacity: 0;
+    }
+
+    .gallery img.active {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .gallery img:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <h1>Design Portfolio</h1>
+
+  <div class="gallery">
+    <img src="https://via.placeholder.com/200" alt="Portfolio Image 1" class="gallery-image">
+    <img src="https://via.placeholder.com/200" alt="Portfolio Image 2" class="gallery-image">
+    <img src="https://via.placeholder.com/200" alt="Portfolio Image 3" class="gallery-image">
+  </div>
+
+  <button id="animateBtn">Animate Image</button>
+
+  <script>
+    $(document).ready(function() {
+      // Set initial state for images (hide them)
+      $('.gallery img').css({ 'opacity': '0', 'transform': 'scale(0.8)' });
+
+      // Button click event to animate images
+      $('#animateBtn').click(function() {
+        $('.gallery img').each(function(index) {
+          $(this).delay(index * 500).animate({
+            opacity: 1,
+            width: '+=40px',
+            height: '+=40px'
+          }, 1000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
