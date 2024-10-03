@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Registration System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      margin: 10px 0;
+      padding: 8px;
+    }
+    .course-list {
+      margin-top: 20px;
+    }
+    .course {
+      padding: 10px;
+      border: 1px solid #06ebf3;
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Course Registration</h1>
+
+  <!-- Form for registering a course -->
+  <form id="courseRegistrationForm">
+    <label for="studentID">Student ID:</label>
+    <input type="text" id="studentID" name="studentID" required>
+
+    <label for="courseCode">Select Course:</label>
+    <select id="courseCode" name="courseCode" required>
+      <option value="">Select a course</option>
+      <option value="AI101">AI101 - Introduction to Artificial Intelligence</option>
+      <option value="ML202">ML202 - Machine Learning Fundamentals</option>
+      <option value="CS101">CS101 - Introduction to Computer Science</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <div id="message" class="error"></div>
+
+  <!-- List of available courses -->
+  <div class="course-list">
+    <h2>Available Courses</h2>
+    <div id="courseList"></div>
+  </div>
+
+  <script>
+    // Sample data: courses with capacity and prerequisites
+    const courses = {
+      "AI101": { name: "Artificial Intelligence and Machine Learning", capacity: 30, enrolled: 28, prerequisites: ["CS101"] },
+      "ML202": { name: "Machine Learning and Robotics", capacity: 25, enrolled: 25, prerequisites: ["AI101"] },
+      "CS101": { name: "Computer Science and Engineering", capacity: 40, enrolled: 35, prerequisites: [] }
+    };
+
+    // Simulated data: student’s completed courses
+    const completedCourses = ["CS101"];  // Modify this for testing different scenarios
+
+    // Display available courses and their details
+    function displayCourses() {
+      const courseListDiv = document.getElementById('courseList');
+      courseListDiv.innerHTML = '';
+
+      for (let courseCode in courses) {
+        const course = courses[courseCode];
+        const courseStatus = course.enrolled >= course.capacity ? 'Full' : 'Available';
+        const courseInfo = `
+          <div class="course">
+            <strong>${course.name} (${courseCode})</strong><br>
+            Capacity: ${course.capacity} | Enrolled: ${course.enrolled} | Status: ${courseStatus}<br>
+            Prerequisites: ${course.prerequisites.length > 0 ? course.prerequisites.join(', ') : 'None'}
+          </div>
+        `;
+        courseListDiv.innerHTML += courseInfo;
+      }
+    }
+
+    // Handle form submission for course registration
+    document.getElementById('courseRegistrationForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const studentID = document.getElementById('studentID').value;
+      const courseCode = document.getElementById('courseCode').value;
+      const messageDiv = document.getElementById('message');
+      
+      messageDiv.innerHTML = '';  // Clear any previous messages
+
+      if (!studentID || !courseCode) {
+        messageDiv.innerHTML = 'Please fill in all fields.';
+        return;
+      }
+
+      const course = courses[courseCode];
+
+      // Check if course is fully booked
+      if (course.enrolled >= course.capacity) {
+        messageDiv.innerHTML = 'This course is fully booked.';
+        return;
+      }
+
+      // Check prerequisites
+      const prerequisites = course.prerequisites;
+      const hasCompletedPrerequisites = prerequisites.every(prereq => completedCourses.includes(prereq));
+
+      if (!hasCompletedPrerequisites) {
+        messageDiv.innerHTML = `You have not completed the necessary prerequisites for this course: ${prerequisites.join(', ')}.`;
+        return;
+      }
+
+      // Register the student in the course (mock action here)
+      course.enrolled += 1;
+      messageDiv.innerHTML = `Success! You have been registered for ${courseCode} - ${course.name}.`;
+
+      // Refresh the course list to show the updated enrollment
+      displayCourses();
+    });
+
+    // Initialize the course list on page load
+    window.onload = displayCourses;
+  </script>
+  
+</body>
+</html>
