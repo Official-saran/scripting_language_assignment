@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Digit Number Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Enter a Four-Digit Number</h2>
+    <input type="text" id="numberInput" placeholder="Enter a 4-digit number">
+    <br>
+    <button onclick="validateNumber()">Validate</button>
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    function validateNumber() {
+        const input = document.getElementById('numberInput').value;
+        const messageElement = document.getElementById('message');
+
+        // Check if input is a 4-digit number
+        if (!/^\d{4}$/.test(input)) {
+            messageElement.textContent = "Please enter a valid 4-digit number.";
+            messageElement.style.color = "red";
+            return;
+        }
+
+        // Check if the first digit is not zero
+        if (input[0] === '0') {
+            messageElement.textContent = "The first digit cannot be zero.";
+            messageElement.style.color = "red";
+            return;
+        }
+
+        // Check if digits are in ascending order
+        for (let i = 0; i < input.length - 1; i++) {
+            if (input[i] >= input[i + 1]) {
+                messageElement.textContent = "Digits must be in ascending order.";
+                messageElement.style.color = "red";
+                return;
+            }
+        }
+
+        // If all checks pass
+        messageElement.textContent = "Valid number!";
+        messageElement.style.color = "green";
+    }
+</script>
+
+</body>
+</html>
