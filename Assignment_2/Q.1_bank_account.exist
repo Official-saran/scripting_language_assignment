@@ -1,0 +1,62 @@
+class BankAccount
+  attr_reader :balance
+
+  def initialize
+    @balance = 0
+  end
+
+  def add_balance
+    print "Enter amount to deposit: "
+    amount = gets.to_f
+    if amount > 0
+      @balance += amount
+      puts "Deposited #{amount}. New balance: #{@balance}"
+    else
+      puts "Deposit amount must be positive."
+    end
+  end
+
+  def withdraw
+    print "Enter amount to withdraw: "
+    amount = gets.to_f
+    if amount > 0 && amount <= @balance
+      @balance -= amount
+      puts "Withdrew #{amount}. New balance: #{@balance}"
+    elsif amount > @balance
+      puts "Insufficient balance."
+    else
+      puts "Withdrawal amount must be positive."
+    end
+  end
+
+  def check_balance
+    puts "Current balance: #{@balance}"
+  end
+end
+
+# Menu for interacting with the bank account
+account = BankAccount.new
+
+loop do
+  puts "\nBank Account Menu:"
+  puts "1. Deposit Money"
+  puts "2. Withdraw Money"
+  puts "3. Check Balance"
+  puts "4. Exit"
+  print "Choose an option: "
+  choice = gets.to_i
+
+  case choice
+  when 1
+    account.add_balance
+  when 2
+    account.withdraw
+  when 3
+    account.check_balance
+  when 4
+    puts "Thank you for using the bank account service!"
+    break
+  else
+    puts "Invalid option. Please choose again."
+  end
+end
