@@ -1,0 +1,59 @@
+# Base class for all vehicles
+class Vehicle
+  attr_accessor :fuel_level, :mileage
+
+  def initialize(fuel_level, mileage)
+    @fuel_level = fuel_level
+    @mileage = mileage
+  end
+
+  def calculate_mileage(distance_traveled, fuel_used)
+    @mileage = distance_traveled / fuel_used
+  end
+
+  def check_fuel
+    puts "Fuel level: #{@fuel_level}"
+  end
+
+  def perform_maintenance
+    puts "Performing general vehicle maintenance."
+  end
+end
+
+# Subclass for Car
+class Car < Vehicle
+  attr_accessor :trunk_capacity
+
+  def initialize(fuel_level, mileage, trunk_capacity)
+    super(fuel_level, mileage)
+    @trunk_capacity = trunk_capacity
+  end
+
+  def perform_maintenance
+    super
+    puts "Performing additional maintenance specific to cars."
+  end
+end
+
+
+class Truck < Vehicle
+  attr_accessor :cargo_capacity
+
+  def initialize(fuel_level, mileage, cargo_capacity)
+    super(fuel_level, mileage)
+    @cargo_capacity = cargo_capacity
+  end
+
+  def perform_maintenance
+    super
+    puts "Performing additional maintenance specific to trucks."
+  end
+end
+
+
+class Motorcycle < Vehicle
+  def perform_maintenance
+    super
+    puts "Performing additional maintenance specific to motorcycles."
+  end
+end
